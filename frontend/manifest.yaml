@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: frontend
+  labels:
+    purpose: mini-project
+    tier: web
+spec:
+  selector:
+    matchLabels:
+      purpose: mini-project
+      tier: web
+  replicas: 1
+  ## pod definiton
+  template:
+    metadata:
+      name: frontend
+      labels:
+        purpose: mini-project
+        tier: web
+    spec:
+      containers:
+      - name: frontend
+        image: mohanvamsi011/frontend:v1
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-lb
+  labels:
+    purpose: mini-project
+    tier: web
+spec:
+  type : LoadBalancer
+  selector:
+    purpose: mini-project
+    tier: web
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+
+
